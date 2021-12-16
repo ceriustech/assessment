@@ -1,3 +1,5 @@
+const assert = require('assert');
+
 const lispValidator = (str) => {
 	let stack = [];
 	for (let i = 0; i < str.length; i++) {
@@ -7,20 +9,8 @@ const lispValidator = (str) => {
 			stack.pop();
 		}
 	}
-	return stack.length == 0 ? 'True' : 'False';
+	return stack.length == 0;
 };
 
-const lispCodeResult = document.querySelector('.lisp-validator-result');
-
-// const lispValidatorValue = document.querySelector('#lisp-validator')?.value;
-
-// const lispValidatorSubmitButton = document.querySelector('#submit-button');
-
-// lispValidatorSubmitButton.addEventListener(
-// 	'click',
-// 	lispValidator(lispValidatorValue)
-// );
-
-let example = 'some text string';
-
-lispCodeResult.innerHTML = `<span>${example}</span>`;
+assert.equal(lispValidator('(())'), true);
+assert.equal(lispValidator('(()('), false);
