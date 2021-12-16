@@ -1,51 +1,109 @@
-// Read the contents of example.txt
-
 const fs = require('fs');
 
-fs.readFile(
-	'./example.txt',
-	{
-		encoding: 'utf8',
-	},
-	(err, data) => {
-		const lines = data.split('\n');
-		// id,firstName lastName,versionId,company
-		// str.split(',')[2]
+// /*
+//   const values = Object.values(enrolleesByCompanies['company_1']);
 
-		const enrollee = {};
+//   const obj = { email: '...', firstName: '...', location: '...' }
 
-		for (const line of lines) {
-			console.log(line);
+//   const enrolleesByCompany = {
+//     'company_1': {
+//       '13': {
+//         id,
+//         firstName,
+//         lastName,
+//         versionId,
+//         company
+//       },
+//       '33': {
+//         id,
+//         firstName,
+//         lastName,
+//         versionId,
+//         company
+//       }
+//     }
+//   }
+// */
+
+// const enrolleesByCompany = {
+// 	sunnyshine: {
+// 		3: {
+// 			id: 3,
+// 			firstName: 'John',
+// 			lastName: 'Logan',
+// 			version: 4,
+// 			company: 'sunnyshine',
+// 		},
+// 		4: {
+// 			id: 4,
+// 			firstName: 'Paul',
+// 			lastName: 'Irvine',
+// 			version: 7,
+// 			company: 'sunnyshine',
+// 		},
+// 	},
+// };
+
+// console.log(Object.values(enrolleesByCompany.company_1));
+
+const readFile = (path) => {
+	fs.readFile(
+		'./example.txt',
+		{
+			encoding: 'utf8',
+		},
+		(err, data) => {
+			const lines = data.split('\n');
+
+			let enrolleesByCompany = {};
+
+			for (const line of lines) {
+				const enrollee = {};
+				const values = line.split(',');
+				const [firstName, lastName] = values[1].split(' ');
+
+				enrollee['id'] = values[0];
+				enrollee['firstName'] = firstName;
+				enrollee['lastName'] = lastName;
+				enrollee['version'] = values[2];
+				enrollee['company'] = values[3];
+
+				if (enrolleesByCompany[enrollee.company] === undefined) {
+					enrolleesByCompany[enrollee.company] = {};
+				}
+
+				const existingEnrollee =
+					enrolleesByCompany[enrollee.company][enrollee.id];
+				if (existingEnrollee && existingEnrollee.version > enrollee.version) {
+					continue;
+				}
+
+				enrolleesByCompany[enrollee.company][enrollee.id] = enrollee;
+			}
+
+			for (const key in enrolleesByCompany) {
+				const enrollees = Object.values(enrolleesByCompany[key])
+					.sort((a, b) => {
+						if (a.firstName < b.firstName) return -1;
+
+						if (a.firstName > b.firstName) return 1;
+
+						return 0;
+					})
+					.reduce((prev, enrollee) => {
+						const { id, firstName, lastName, version, company } = enrollee;
+						return (
+							prev + `${id}, ${firstName} ${lastName}, ${version}, ${company}\n`
+						);
+					}, '');
+				console.log(enrollees);
+			}
+
+			// transform the object into an array
+
+			//
 		}
-		// enrollee['id'] =
-	}
-);
+	);
+};
 
-/*
-  const enrolleesByCompany = {
-    'company_1': {
-      'user_id': {
-        id,
-        firstName,
-        lastName,
-        versionId,
-        company
-      }
-    }
-  }
-
-  When we start writing to our output file
-
-  Loop over keys in object
-  Get array of values for specified company
-  Call a sort method to sort the enrollee of said company
-
-*/
-
-// Group enrollees by company
-
-// Generate a new file for each respective comnpany (if file doesn't exist)
-
-// Sort enrollees in ascending order by last and first name
-
-// If there are duplicate user IDs for the same company
+readFile();
