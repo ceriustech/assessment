@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 // /*
 //   const values = Object.values(enrolleesByCompanies['company_1']);
@@ -82,7 +83,7 @@ const readFile = (path) => {
 			}
 
 			for (const key in enrolleesByCompany) {
-				const enrollees = Object.values(enrolleesByCompany[key])
+				const content = Object.values(enrolleesByCompany[key])
 					.sort((a, b) => {
 						if (a.firstName < b.firstName) return -1;
 
@@ -90,16 +91,20 @@ const readFile = (path) => {
 
 						return 0;
 					})
-					.reduce((prev, enrollee) => {
-						const { id, firstName, lastName, version, company } = enrollee;
+					.reduce((prev, content) => {
+						const { id, firstName, lastName, version, company } = content;
 						return (
 							prev + `${id}, ${firstName} ${lastName}, ${version}, ${company}\n`
 						);
 					}, '');
-				console.log(enrollees);
+				console.log(content);
+				fs.writeFile(`${key}.txt`, content, (error) => {
+					console.log(error);
+				});
 			}
 
 			// transform the object into an array
+			// if (existsSync()) console.log('The path exists.');
 
 			//
 		}
