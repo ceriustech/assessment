@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import './App.css';
+import './styles/RegistrationForm.scss';
 import RegistrationForm from './components/RegistrationForm';
 
 function App() {

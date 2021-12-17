@@ -1,55 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 
-// /*
-//   const values = Object.values(enrolleesByCompanies['company_1']);
-
-//   const obj = { email: '...', firstName: '...', location: '...' }
-
-//   const enrolleesByCompany = {
-//     'company_1': {
-//       '13': {
-//         id,
-//         firstName,
-//         lastName,
-//         versionId,
-//         company
-//       },
-//       '33': {
-//         id,
-//         firstName,
-//         lastName,
-//         versionId,
-//         company
-//       }
-//     }
-//   }
-// */
-
-// const enrolleesByCompany = {
-// 	sunnyshine: {
-// 		3: {
-// 			id: 3,
-// 			firstName: 'John',
-// 			lastName: 'Logan',
-// 			version: 4,
-// 			company: 'sunnyshine',
-// 		},
-// 		4: {
-// 			id: 4,
-// 			firstName: 'Paul',
-// 			lastName: 'Irvine',
-// 			version: 7,
-// 			company: 'sunnyshine',
-// 		},
-// 	},
-// };
-
-// console.log(Object.values(enrolleesByCompany.company_1));
+/* This function takes in the path of a file with csv data and do the following: 
+	- Separate enrollees by insurance company into their own respective file
+	- Sort all of the enrollees in ascending order by last and first name
+	- If there are duplicate user IDs in the file, only the record with the highest version number
+	  will be included
+*/
 
 const readFile = (path) => {
 	fs.readFile(
-		'./example.txt',
+		path,
 		{
 			encoding: 'utf8',
 		},
@@ -102,13 +63,8 @@ const readFile = (path) => {
 					console.log(error);
 				});
 			}
-
-			// transform the object into an array
-			// if (existsSync()) console.log('The path exists.');
-
-			//
 		}
 	);
 };
 
-readFile();
+readFile('./example.txt');
