@@ -67,9 +67,6 @@ const readFile = (path) => {
 					})
 					.reduce((prev, content) => {
 						const { id, firstName, lastName, version, company } = content;
-						console.log(
-							prev + `${id}, ${firstName} ${lastName}, ${version}, ${company}\n`
-						);
 
 						// return the records that will be used as data for each individual file that pertains to a company
 						return (
